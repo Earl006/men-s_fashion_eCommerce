@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>eCommerce Admin</title>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">
+            <img src="../images/logo.png" alt="logo">
+        </div>
+        <nav>
+            <h1>Admin Dashboard</h1>
+        </nav>
+        <div class="cart">
+          <!-- <a href="#">
+            <img src="../images/cart.png" alt="cart">
+            <span>0</span>
+          </a> -->
+        </div>
+    </div>
+    <div class="dashboard">
+        <div class="actions">
+            <button id="add-product">Add Product</button>
+        </div>
+    </div>
+    <div class="products-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Description</th>
+                    <th>Product Price</th>
+                    <th>Product Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Shirt</td>
+                    <td>Cotton Shirt</td>
+                    <td>Ksh. 2000.00</td>
+                    <td><img src="../images/cart-1.jpg" alt="Shirt"></td>
+                    <td>
+                        <button class="edit-button" id="edit-button">Edit</button>
+                        <button class="delete-button">Delete</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Shoes</td>
+                    <td>Branded Shoes</td>
+                    <td>Ksh. 4000.00</td>
+                    <td><img src="../images/cart-2.jpg" alt="Shoes"></td>
+                    <td>
+                        <button class="edit-button">Edit</button>
+                        <button class="delete-button">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="add-product-form">
+        <form>
+            <label for="product-name">Product Name</label>
+            <input type="text" name="product-name" placeholder="Product Name">
+            <label for="product-description">Product Description</label>
+            <input type="text" name="product-description" placeholder="Product Description">
+            <label for="product-price">Product Price</label>
+            <input type="text" name="product-price" placeholder="Product Price">
+            <label for="product-image">Product Image (Input path or url)</label>
+            <input type="text" name="product-image" placeholder="Product Image">
+            <button type="submit">Add Product</button>
+            <button type="button" id="close-form">Close</button>
+        </form>
+    </div>
+    <div class="edit-product-form">
+        <form>
+            <label for="product-name">Product Name</label>
+            <input type="text" name="product-name" placeholder="Product Name">
+            <label for="product-description">Product Description</label>
+            <input type="text" name="product-description" placeholder="Product Description">
+            <label for="product-price">Product Price</label>
+            <input type="text" name="product-price" placeholder="Product Price">
+            <label for="product-image">Product Image (Input path or url)</label>
+            <input type="text" name="product-image" placeholder="Product Image">
+            <button type="submit">Edit Product</button>
+            <button type="button" id="close-fm">Close</button>
+        </form>
+    </div>
+    
+ <div id="overlay">
+        <div class="product-details-container">
+            <h2>Product Details</h2>
+            <div id="product-details-content">
+                <img src="../images/cart-1.jpg" alt="Shirt">
+                <h1>Shirt</h1>
+                <p>Cotton Shirt</p>
+                <p>Description</p>
+                <p>Ksh. 2000.00</p>
+                <button id="close-overlay">Close</button>
+            </div>
+            
+        </div>
+    </div>
+    <script src="../dist/index.js"></script>
+</body>
+</html>
