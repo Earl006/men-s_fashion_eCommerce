@@ -344,3 +344,33 @@ tr:hover {
 .product-details-container button:hover {
     background-color: #ec4444; 
 }
+
+/* RESPONSIVENESS */
+@media (max-width:768px) {
+    .navbar{
+       display: block;
+       align-items: center;
+        width:500px;
+        
+    }
+    .navbar nav{
+        justify-items: center;
+
+    }
+    table tbody td button{
+        margin: 5%;
+    }
+    .actions{
+        float:inline-start;
+        align-self: center;
+    }
+   .add-product-form .edit-product-form .product-details-container{
+        position: fixed;
+        width: 70%;
+        max-width: 200px;
+        margin: 0 auto;
+   }
+   .products-table{
+    width: fit-content;
+   }
+}

@@ -1,13 +1,6 @@
 {
   "products": [
     {
-      "name": "J4's",
-      "description": "Black, leather stylish shoes",
-      "price": "4500",
-      "image": "https://images.yaoota.com/JQ-rX9DZ0biR7odnW3gKO3xWhpY=/trim/fit-in/840x840/filters:quality(100)/yaootaweb-production-ke/media/crawledproductimages/3d36a434d7aaf2c18ac4c54783ad56126cc22319.jpg",
-      "id": "847b"
-    },
-    {
       "id": "81c8",
       "name": "Shirt",
       "description": "Cotton Shirt",
