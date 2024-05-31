@@ -1,4 +1,13 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 document.addEventListener('DOMContentLoaded', () => {
     const addProductButton = document.getElementById('add-product');
     const addProductForm = document.querySelector('.add-product-form');
@@ -12,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const productsContainer = document.getElementById('products');
     const closeOverlayButton = document.getElementById('close-overlay');
     const cartItems = document.getElementById('cart-items');
+    const uniqueProductsInCart = new Set();
     const generateUniqueId = () => {
         return `cart-item-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
     };
@@ -37,10 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 const addToCartButton = document.getElementById(`add-to-cart-${product.id}`);
                 const quantityInput = document.getElementById(`quantity-${product.id}`);
                 if (addToCartButton && quantityInput) {
-                    addToCartButton.addEventListener('click', (e) => {
+                    addToCartButton.addEventListener('click', (e) => __awaiter(void 0, void 0, void 0, function* () {
                         e.preventDefault();
                         addToCart(product, parseInt(quantityInput.value));
-                    });
+                    }));
                 }
             });
         }
@@ -48,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const addToCart = (product, quantity) => {
         console.log('Add to cart:', product);
         const cartItem = Object.assign(Object.assign({}, product), { quantity, id: generateUniqueId() });
+        uniqueProductsInCart.add(product.id);
         fetch('http://localhost:3001/cart', {
             method: 'POST',
             headers: {
@@ -70,6 +81,12 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
             console.log('Cart:', data);
             displayCart(data);
+            const itemCount = data.length;
+            console.log('Item count:', itemCount);
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) {
+                cartCount.innerText = itemCount.toString();
+            }
         })
             .catch(error => console.error('Error fetching cart:', error));
     };
@@ -90,10 +107,10 @@ document.addEventListener('DOMContentLoaded', () => {
             cartItems.appendChild(cartItemElement);
             const removeFromCartButton = document.getElementById(`remove-from-cart-${cartItem.id}`);
             if (removeFromCartButton) {
-                removeFromCartButton.addEventListener('click', (e) => {
+                removeFromCartButton.addEventListener('click', (e) => __awaiter(void 0, void 0, void 0, function* () {
                     e.preventDefault();
                     removeFromCart(cartItem);
-                });
+                }));
             }
         });
     };

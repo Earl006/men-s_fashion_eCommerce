@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const productsContainer = document.getElementById('products') as HTMLElement;
     const closeOverlayButton = document.getElementById('close-overlay');
     const cartItems = document.getElementById('cart-items') as HTMLElement;
+    const uniqueProductsInCart = new Set();
+
     const generateUniqueId = () => {
         return `cart-item-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
     };
@@ -37,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const addToCartButton = document.getElementById(`add-to-cart-${product.id}`);
                 const quantityInput = document.getElementById(`quantity-${product.id}`) as HTMLInputElement;
                 if (addToCartButton && quantityInput) {
-                    addToCartButton.addEventListener('click', (e) => {
+                    addToCartButton.addEventListener('click', async(e) => {
                         e.preventDefault();
                         addToCart(product, parseInt(quantityInput.value));
                     });
@@ -54,6 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
         id: generateUniqueId()
         
        };
+       uniqueProductsInCart.add(product.id);
+
        fetch('http://localhost:3001/cart', {
               method: 'POST',
               headers: {
@@ -79,11 +83,16 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 console.log('Cart:', data);
                 displayCart(data);
-                
+                const  itemCount = data.length;
+                console.log('Item count:', itemCount);
+                const cartCount = document.getElementById('cart-count');
+                if (cartCount) {
+                    cartCount.innerText = itemCount.toString();
+                }
             })
             .catch(error => console.error('Error fetching cart:', error));
     }
-    
+   
     const displayCart = (cartData: any) => {
         console.log('Display cart:', cartData);
         
@@ -100,10 +109,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 <button id="remove-from-cart-${cartItem.id}" class="remove-from-cart">Remove</button>
             `;
             cartItems.appendChild(cartItemElement);
-    
+            
+            
             const removeFromCartButton = document.getElementById(`remove-from-cart-${cartItem.id}`);
             if (removeFromCartButton) {
-                removeFromCartButton.addEventListener('click', (e) => {
+                removeFromCartButton.addEventListener('click', async(e) => {
                     e.preventDefault();
                     removeFromCart(cartItem);
                 });
@@ -128,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error:', error);
         });
     }
-
+    
     
 const fetchProducts = () => {
     fetch('http://localhost:3001/products')
@@ -141,6 +151,7 @@ const fetchProducts = () => {
         .catch(error => console.error('Error fetching products:', error));
 }
 fetchProducts();
+
     const fetchAndDisplayProducts = () => {
         fetch('http://localhost:3001/products')
             .then(response => response.json())
