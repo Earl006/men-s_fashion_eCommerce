@@ -11,6 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
     let productDetailsContent = document.getElementById('product-details-content');
     const productsContainer = document.getElementById('products');
     const closeOverlayButton = document.getElementById('close-overlay');
+    const cartItems = document.getElementById('cart-items');
+    const generateUniqueId = () => {
+        return `cart-item-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
+    };
     const displayProducts = (productsData) => {
         productsContainer.innerHTML = '';
         if (productsData) {
@@ -18,16 +22,98 @@ document.addEventListener('DOMContentLoaded', () => {
                 const productElement = document.createElement('div');
                 productElement.classList.add('product');
                 productElement.innerHTML = `
-            <img src="${product.image}" alt="${product.name}">
-            <h1>${product.name}</h1>
-            <p>${product.description}</p>
-            <p>${product.price}</p>
-            <button>See Details</button>
-            <button id="add-to-cart">Add to Cart</button>
-        `;
+                    <img src="${product.image}" alt="${product.name}">
+                    <h1>${product.name}</h1>
+                    <p>${product.description}</p>
+                    <p>${product.price}</p>
+                    <label for="quantity-${product.id}">Quantity:</label>
+                    <input id="quantity-${product.id}"name="quantity" type="number" value="1" min="1" max="100">
+                    <div style="margin:5%">
+                    <button>See Details</button>
+                    <button id="add-to-cart-${product.id}" class="add-to-cart">Add to Cart</button>
+                    </div>
+                `;
                 productsContainer.appendChild(productElement);
+                const addToCartButton = document.getElementById(`add-to-cart-${product.id}`);
+                const quantityInput = document.getElementById(`quantity-${product.id}`);
+                if (addToCartButton && quantityInput) {
+                    addToCartButton.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        addToCart(product, parseInt(quantityInput.value));
+                    });
+                }
             });
         }
+    };
+    const addToCart = (product, quantity) => {
+        console.log('Add to cart:', product);
+        const cartItem = Object.assign(Object.assign({}, product), { quantity, id: generateUniqueId() });
+        fetch('http://localhost:3001/cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(cartItem),
+        })
+            .then(response => response.json())
+            .then(data => {
+            console.log('Success:', data);
+        })
+            .catch((error) => {
+            console.error('Error:', error);
+        });
+    };
+    const fetchCart = () => {
+        console.log('Fetching cart');
+        fetch('http://localhost:3001/cart')
+            .then(response => response.json())
+            .then(data => {
+            console.log('Cart:', data);
+            displayCart(data);
+        })
+            .catch(error => console.error('Error fetching cart:', error));
+    };
+    const displayCart = (cartData) => {
+        console.log('Display cart:', cartData);
+        cartItems.innerHTML = '';
+        cartData.forEach((cartItem) => {
+            const cartItemElement = document.createElement('div');
+            cartItemElement.classList.add('cart-item');
+            cartItemElement.innerHTML = `
+                <img src="${cartItem.image}" alt="${cartItem.name}">
+                <h1>${cartItem.name}</h1>
+                <p>${cartItem.description}</p>
+                <p>${cartItem.price * cartItem.quantity}</p>
+                <p>Quantity: ${cartItem.quantity}</p>
+                <button id="remove-from-cart-${cartItem.id}" class="remove-from-cart">Remove</button>
+            `;
+            cartItems.appendChild(cartItemElement);
+            const removeFromCartButton = document.getElementById(`remove-from-cart-${cartItem.id}`);
+            if (removeFromCartButton) {
+                removeFromCartButton.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    removeFromCart(cartItem);
+                });
+            }
+        });
+    };
+    fetchCart();
+    const removeFromCart = (cartItem) => {
+        console.log('Remove from cart:', cartItem);
+        fetch(`http://localhost:3001/cart/${cartItem.id}`, {
+            method: 'DELETE',
+        })
+            .then(response => {
+            if (response.ok) {
+                fetchCart();
+            }
+            else {
+                console.error('Error deleting cart item');
+            }
+        })
+            .catch((error) => {
+            console.error('Error:', error);
+        });
     };
     const fetchProducts = () => {
         fetch('http://localhost:3001/products')

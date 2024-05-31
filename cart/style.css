@@ -1,0 +1,114 @@
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;    
+    background-color: #f8f9fa;
+    padding: 10px 0;
+}
+.logo{
+   width: 100px;
+    margin-left: 5%;
+
+}
+.navbar ul{
+    display: flex;
+    list-style: none;
+}
+.navbar ul li{
+    margin-right: 30px;
+}
+.navbar ul li a{
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+}
+.navbar ul li a:hover{
+    color: #ff1e00;
+}
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: row;
+        
+        align-items: flex-start;
+    }
+    .logo {
+        margin-left: 0;
+        margin-bottom: 10px;
+    }
+    .navbar ul {
+        flex-direction: column;
+    }
+    .navbar ul li {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .cart {
+        margin-right: 0;
+    }
+    .hero-image{
+        height: 100%;
+    }
+   .hero-content{
+    margin-top: 25%;
+    
+   }
+}
+.cartItems{
+    padding: 50px 0;
+    text-align: center;
+   
+}
+.cartItems button{
+    background-color: #058b0b;
+    border-radius: 10px;
+    border: none;
+    width:100px;
+    height: 40px;
+    color: #fff;
+    font-size: 17px;
+}
+.cartItems button:hover{
+    background-color: #328536;
+    transform: translateY(-5px);
+}
+.cart-items{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 4%;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+.cart-item{
+    margin-top: 5%;
+    margin: 10px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border: solid 1px #ff1e00;
+    transition: 0.3s;
+    cursor: pointer;
+    width: 300px;
+    height: fit-content;
+
+}
+.cart-item img{
+    width: 200px;
+    height: auto;
+}
+.cart-item button{
+    background-color: #ff1e00;
+    border-radius: 10px;
+    border: none;
+    width:100px;
+    height: 40px;
+    color: #fff;
+
+}
+.cart-item button:hover{
+    background-color: #e26c5d;
+}
+.cart-item:hover{
+    transform: translateY(-10px);
+}
